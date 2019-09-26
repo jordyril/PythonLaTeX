@@ -1,0 +1,11 @@
+README.md
+setup.py
+pythonlatex/__init__.py
+pythonlatex/latexfigure.py
+pythonlatex/latexfloat.py
+pythonlatex/latexsaving.py
+pythonlatex.egg-info/PKG-INFO
+pythonlatex.egg-info/SOURCES.txt
+pythonlatex.egg-info/dependency_links.txt
+pythonlatex.egg-info/requires.txt
+pythonlatex.egg-info/top_level.txt

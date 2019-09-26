@@ -33,7 +33,7 @@ Created on Thur Sep 26 2019
 
 """
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
 # ====================================================================
 # OPTIONS
