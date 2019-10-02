@@ -4,5 +4,6 @@ A library complementing/building upon the package 'pylatex' by Jelte Fennema (se
     :license: MIT, see License for more details.
 """
 
-from .latexfigure import LatexFigure
-from .latexsaving import LatexSaving
+from .figure import Figure, SubFigure
+from .table import Table
+from .saving import LatexSaving
