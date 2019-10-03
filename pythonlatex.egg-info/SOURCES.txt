@@ -2,6 +2,7 @@ README.md
 setup.py
 pythonlatex/__init__.py
 pythonlatex/figure.py
+pythonlatex/float.py
 pythonlatex/saving.py
 pythonlatex/table.py
 pythonlatex.egg-info/PKG-INFO

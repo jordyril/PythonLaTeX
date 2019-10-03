@@ -47,9 +47,9 @@ class TestSubFigure(unittest.TestCase):
                 (
                     "\\begin{figure}%\n\\begin{subfigure}{0.48\\textwidth}%"
                     + "\n\\caption{left}%\n\\zlabel{fig:left}%\n\\includegraphics[width=\\linewidth]"
-                    + "{Figures/left.jpg}%\n\\end{subfigure}%\n\\begin{subfigure}{0.48\\textwidth}%"
+                    + "{Graphs/left.jpg}%\n\\end{subfigure}%\n\\begin{subfigure}{0.48\\textwidth}%"
                     + "\n\\caption{right}%\n\\zlabel{fig:right}%\n\\includegraphics[width="
-                    + "\\linewidth]{Figures/right.jpg}%\n\\end{subfigure}%\n\\caption{full}%\n"
+                    + "\\linewidth]{Graphs/right.jpg}%\n\\end{subfigure}%\n\\caption{full}%\n"
                     + "\\zlabel{fig:full}%\n\\end{figure}"
                 ),
             )
@@ -167,7 +167,7 @@ class TestSubFigure(unittest.TestCase):
                 plt.close()
 
             # fig.add_caption_label("full", "full")
-            input_tex = fig.write_input_latex(
+            input_tex = fig.create_input_latex(
                 "test", add_plot=False, caption="full", label="full", above=False
             )
 
@@ -178,7 +178,6 @@ class TestSubFigure(unittest.TestCase):
         doc.preamble.append(NoEscape(r"\usepackage{subcaption}"))
         doc.append(input_tex)
         doc.generate_pdf("Latex/test", clean_tex=False)
-        # doc.generate_tex("Latex/latexinput")
 
 
 if __name__ == "__main__":

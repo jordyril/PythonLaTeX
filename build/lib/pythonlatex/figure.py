@@ -17,18 +17,18 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
     def __init__(
         self,
         *args,
-        folder_path="Latex/",
-        folder_name="Figures",
-        create_folder=True,
+        folders_path="Latex/",
+        outer_folder_name="Figures",
+        inner_folder_name="Graphs",
         position=None,
         **kwargs,
     ):
         # print("saving init in")
         LatexSaving.__init__(
             self,
-            folder_name=folder_name,
-            folder_path=folder_path,
-            create_folder=create_folder,
+            outer_folder=outer_folder_name,
+            inner_folder=inner_folder_name,
+            folders_path=folders_path,
         )
         # print("saving init out")
         # print("figure init in")
@@ -37,11 +37,11 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
         self._label = "fig"
 
     def _save_plot(self, filename, *args, extension="jpg", **kwargs):
-        """Save the plot.
+        """Saves the plot in the 'inner' folder
         Args
         ----
         filename: str
-            Name of the figure for saving
+            Name of the plot for saving
         args:
             Arguments passed to plt.savefig for displaying the plot.
         extension : str
@@ -59,8 +59,8 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
             and it is being saved in a known directory)
         """
         name = f"{filename}.{extension}"
-        plt.savefig(self._absolute_path(name), *args, **kwargs)
-        return self._relative_path(name)
+        plt.savefig(self._absolute_inner_path(name), *args, **kwargs)
+        return self._relative_inner_path(name)
 
     def add_plot(
         self,
@@ -131,7 +131,7 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
 
         self.data = []
 
-    def write_input_latex(
+    def create_input_latex(
         self,
         filename,
         *args,
@@ -141,11 +141,11 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
         label=None,
         **kwargs,
     ):
-        """Creates separate input tex-file that can be used to input figure
+        """Creates separate input tex-file that can be used to input Figure
         Args
         ----
         filename: str
-            Name of the figure for saving
+            Name of the plot for saving
         args:
             Arguments passed to plt.savefig for displaying the plot.
         add_plot: bool
@@ -170,45 +170,14 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
         else:
             self.add_caption_label(caption, label, above)
 
-        # creating + opening the file
-        with open(f"{self._inputs_folder}input_{filename}.tex", "w") as tex_file:
+        # creating + opening the final input file in the 'outer' folder
+        with open(f"{self._absolute_outer_path(filename)}.tex", "w+") as tex_file:
             tex_file.write(self.dumps())
 
         latex_input = self._print_latex_input(filename)
         self._write_input_to_txt_file(latex_input)
 
         return NoEscape(latex_input)
-
-    # def add_caption(self, caption, above=True):
-    #     """Add a caption to the float.
-    #     Args
-    #     ----
-    #     caption: str
-    #         The text of the caption.
-    #     above: bool
-    #         Position of caption
-    #     """
-    #     if above:
-    #         self.insert(0, Command("caption", caption))
-
-    #     else:
-    #         self.append(Command("caption", caption))
-
-    # def add_label(self, label, above=True):
-    #     self.packages.add(Package("zref-user"))
-    #     if above:
-    #         self.insert(0, Command("zlabel", NoEscape(f"{self._label}:{label}")))
-    #     else:
-    #         self.append(Command("zlabel", NoEscape(f"{self._label}:{label}")))
-
-    # def add_caption_label(self, caption, label, above=True):
-    #     if above:
-    #         # note that we do label first here, so in final label is after caption
-    #         self.add_label(NoEscape(label), above)
-    #         self.add_caption(caption, above)
-    #     else:
-    #         self.add_caption(caption, above)
-    #         self.add_label(NoEscape(label), above)
 
 
 class SubFigure(Figure):

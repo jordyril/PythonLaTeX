@@ -22,19 +22,25 @@ except FileNotFoundError:
 
 class TestFigures(unittest.TestCase):
     def test_path(self):
-        path = "./test"
-        fig = Figure(folder_path=path, create_folder=False)
-        self.assertEqual(fig._folder_path, path)
+        path = "./Latex/test_path/"
+        fig = Figure(folders_path=path)
+        self.assertEqual(fig._folders_path, path)
 
-    def test_folder(self):
-        folder = "test_folder"
-        fig = Figure(folder_name=folder, create_folder=False)
+    def test_inner_folder(self):
+        folder = "Inner_test"
+        fig = Figure(inner_folder_name=folder)
 
-        self.assertEqual(fig._folder_name, folder)
+        self.assertEqual(fig._inner_folder_name, folder)
+
+    def test_outer_folder(self):
+        folder = "Outer_test"
+        fig = Figure(outer_folder_name=folder)
+
+        self.assertEqual(fig._outer_folder_name, folder)
 
     def test_position(self):
         position = "h"
-        fig = Figure(position=position, create_folder=False)
+        fig = Figure(position=position)
         self.assertEqual(fig.options, position)
 
     def test_save_plot(self):
@@ -45,7 +51,7 @@ class TestFigures(unittest.TestCase):
         fig._save_plot(name)
 
         # check if graph was saved
-        path = fig._absolute_path(f"{name}.jpg")
+        path = fig._absolute_inner_path(f"{name}.jpg")
         self.assertTrue(os.path.isfile(path))
 
     def test_add_plot(self):
@@ -60,7 +66,7 @@ class TestFigures(unittest.TestCase):
             fig.dumps(),
             (
                 "\\begin{figure}%\n\\centering%\n\\includegraphics[width=0.8"
-                + "\\textwidth]{Figures/test.jpg}%\n\\end{figure}"
+                + "\\textwidth]{Graphs/test.jpg}%\n\\end{figure}"
             ),
         )
         plt.close()
@@ -79,7 +85,7 @@ class TestFigures(unittest.TestCase):
                 fig.dumps(),
                 (
                     f"\\begin{{figure}}%\n\\centering%\n\\includegraphics[width=0.8\\textwidth]"
-                    + f"{{Figures/test{i}.jpg}}%\n\\end{{figure}}"
+                    + f"{{Graphs/test{i}.jpg}}%\n\\end{{figure}}"
                 ),
             )
             fig.reset(show=False, close=True)
@@ -90,7 +96,7 @@ class TestFigures(unittest.TestCase):
         caption = "caption"
         plt.figure()
         plt.plot(x, y)
-        input_tex = fig.write_input_latex(name, caption=caption, above=False)
+        input_tex = fig.create_input_latex(name, caption=caption, above=False)
 
         # create document for testing input statement
         doc = Document()
@@ -107,7 +113,7 @@ class TestFigures(unittest.TestCase):
         plt.figure()
         plt.plot(x, y)
 
-        input_tex = fig.write_input_latex(
+        input_tex = fig.create_input_latex(
             name, caption=caption, above=True, label=label
         )
 
