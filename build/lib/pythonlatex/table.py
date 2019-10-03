@@ -5,8 +5,9 @@ This module modifies the 'Table' class from 'pylatex'
 """
 
 from pylatex import Table as TableOriginal
-from pylatex import Package, NoEscape
+from pylatex import Package, NoEscape, Tabular
 from .saving import LatexSaving
+import pandas as pd
 
 
 class Table(LatexSaving, TableOriginal):
@@ -21,17 +22,48 @@ class Table(LatexSaving, TableOriginal):
         position=None,
         **kwargs,
     ):
-        # print("saving init in")
         LatexSaving.__init__(
             self,
             folder_name=folder_name,
             folder_path=folder_path,
             create_folder=create_folder,
         )
-        # print("saving init out")
-        # print("figure init in")
         TableOriginal.__init__(self, *args, position=position, **kwargs)
-        # print("figure init out")
+
+        self._label = "tbl"
+
+    def _set_tabular(self, tabular, *args, **kwargs):
+        """
+        TODO
+        """
+        if isinstance(tabular, Tabular):
+            self.tabular = tabular.dumps()
+
+        elif isinstance(tabular, str):
+            self.tabular = tabular
+
+        elif isinstance(tabular, pd.DataFrame):
+            self.tabular = tabular.to_latex(*args, **kwargs)
+
+    def _tabular_from_df(self, df):
+        """
+        TODO
+        """
+
+        nbr_row, nbr_col = df.shape
+
+        # both have to be increased by 1 for headerrow and index column
+        nbr_col += 1
+        nbr_row += 1
+
+    def _create_tabular_file(self, filename):
+        try:
+            self.tabular
+        except AttributeError:
+            raise AttributeError("No tabular set to save")
+
+        with open(self._absolute_path(f"{filename}.tex"), "w+") as file:
+            file.write(self.tabular)
 
     # def input_from_to_latex_string(
     #     self,
@@ -43,8 +75,8 @@ class Table(LatexSaving, TableOriginal):
     #     **latex_input_kwargs,
     # ):
     #     # write to_latex_tabular to .tex file - create tabular file
-    #     with open(self._absolute_path + name + self._extension, "w") as file:
+    #     with open(self._absolute_path(name + ".tex"), "w") as file:
     #         file.write(to_latex_string)
-    #     self.create_latex_input(name, caption, label, above, **latex_input_kwargs)
+    #     # self.create_latex_input(name, caption, label, above, **latex_input_kwargs)
 
     #     return None
