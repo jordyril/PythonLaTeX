@@ -7,10 +7,11 @@ This module modifies the 'Figure' class from 'pylatex'
 from pylatex import Figure as FigureOriginal
 from pylatex import Package, NoEscape, Command
 from .saving import LatexSaving
+from .float import FloatAdditions
 import matplotlib.pyplot as plt
 
 
-class Figure(LatexSaving, FigureOriginal):
+class Figure(FloatAdditions, LatexSaving, FigureOriginal):
     """A class that represents a Figure environment with modified methods compared to parent"""
 
     def __init__(
@@ -104,16 +105,10 @@ class Figure(LatexSaving, FigureOriginal):
 
         path = self._save_plot(filename, *args, extension=extension, **kwargs)
 
-        # if (caption is not None) and above:
-        #     self.add_caption_label(caption, label)
-
         self.add_image(path, **add_image_kwargs)
 
         if caption is not None:
             self.add_caption_label(caption, label, above)
-
-        # if (caption is not None) and (not above):
-        #     self.add_caption_label(caption, label)
 
     def reset(self, show=True, close=False, *args, **kwargs):
         """Resets the Figure instance, this way the same set-up
@@ -136,7 +131,7 @@ class Figure(LatexSaving, FigureOriginal):
 
         self.data = []
 
-    def write_input_latex(
+    def create_input_latex(
         self,
         filename,
         *args,
@@ -184,36 +179,36 @@ class Figure(LatexSaving, FigureOriginal):
 
         return NoEscape(latex_input)
 
-    def add_caption(self, caption, above=True):
-        """Add a caption to the float.
-        Args
-        ----
-        caption: str
-            The text of the caption.
-        above: bool
-            Position of caption
-        """
-        if above:
-            self.insert(0, Command("caption", caption))
+    # def add_caption(self, caption, above=True):
+    #     """Add a caption to the float.
+    #     Args
+    #     ----
+    #     caption: str
+    #         The text of the caption.
+    #     above: bool
+    #         Position of caption
+    #     """
+    #     if above:
+    #         self.insert(0, Command("caption", caption))
 
-        else:
-            self.append(Command("caption", caption))
+    #     else:
+    #         self.append(Command("caption", caption))
 
-    def add_label(self, label, above=True):
-        self.packages.add(Package("zref-user"))
-        if above:
-            self.insert(0, Command("zlabel", NoEscape(f"{self._label}:{label}")))
-        else:
-            self.append(Command("zlabel", NoEscape(f"{self._label}:{label}")))
+    # def add_label(self, label, above=True):
+    #     self.packages.add(Package("zref-user"))
+    #     if above:
+    #         self.insert(0, Command("zlabel", NoEscape(f"{self._label}:{label}")))
+    #     else:
+    #         self.append(Command("zlabel", NoEscape(f"{self._label}:{label}")))
 
-    def add_caption_label(self, caption, label, above=True):
-        if above:
-            # note that we do label first here, so in final label is after caption
-            self.add_label(NoEscape(label), above)
-            self.add_caption(caption, above)
-        else:
-            self.add_caption(caption, above)
-            self.add_label(NoEscape(label), above)
+    # def add_caption_label(self, caption, label, above=True):
+    #     if above:
+    #         # note that we do label first here, so in final label is after caption
+    #         self.add_label(NoEscape(label), above)
+    #         self.add_caption(caption, above)
+    #     else:
+    #         self.add_caption(caption, above)
+    #         self.add_label(NoEscape(label), above)
 
 
 class SubFigure(Figure):
@@ -228,7 +223,7 @@ class SubFigure(Figure):
 
     _repr_attributes_mapping = {"width": "arguments"}
 
-    def __init__(self, width=NoEscape(r"0.45\linewidth"), **kwargs):
+    def __init__(self, width=NoEscape(r"0.49\linewidth"), **kwargs):
         """
         Args
         ----

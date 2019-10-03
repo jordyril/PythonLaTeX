@@ -13,50 +13,61 @@ try:
 except FileNotFoundError:
     pass
 
+# testing DataFrame
+df = pd.DataFrame()
+x = np.arange(1, 5)
+df["x"] = x
+df["y"] = x
+df.index.name = "index"
+
 
 class TestTables(unittest.TestCase):
     def test_path(self):
         path = "./test"
-        fig = Table(folder_path=path, create_folder=False)
-        self.assertEqual(fig._folder_path, path)
+        table = Table(folder_path=path, create_folder=False)
+        self.assertEqual(table._folder_path, path)
 
     def test_folder(self):
         folder = "test_folder"
-        fig = Table(folder_name=folder, create_folder=False)
+        table = Table(folder_name=folder, create_folder=False)
 
-        self.assertEqual(fig._folder_name, folder)
+        self.assertEqual(table._folder_name, folder)
 
     def test_position(self):
         position = "h"
-        fig = Table(position=position, create_folder=False)
-        self.assertEqual(fig.options, position)
+        table = Table(position=position, create_folder=False)
+        self.assertEqual(table.options, position)
+    
+    def test_tabularfile(self):
+        
+
 
     # def test_reset(self):
-    #     fig = Table()
+    #     table = Table()
     #     # Table 1
     #     for i in range(1, 3):
     #         name = f"test{i}"
     #         plt.Table()
     #         plt.plot(x, y, label=i)
-    #         fig.add_plot(name)
+    #         table.add_plot(name)
 
     #         # check if correct latex output is produced
     #         self.assertEqual(
-    #             fig.dumps(),
+    #             table.dumps(),
     #             (
     #                 f"\\begin{{Table}}%\n\\centering%\n\\includegraphics[width=0.8\\textwidth]"
     #                 + f"{{Tables/test{i}.jpg}}%\n\\end{{Table}}"
     #             ),
     #         )
-    #         fig.reset(close=True)
+    #         table.reset(close=True)
 
     # def test_texinput(self):
-    #     fig = Table()
+    #     table = Table()
     #     name = "test_tex"
     #     caption = "caption"
     #     plt.Table()
     #     plt.plot(x, y)
-    #     input_tex = fig.write_input_latex(name, caption=caption, above=False)
+    #     input_tex = table.write_input_latex(name, caption=caption, above=False)
 
     #     # create document for testing input statement
     #     doc = Document()
