@@ -1,6 +1,7 @@
 from pythonlatex import Table
 from pylatex import Document, NoEscape
-from pylatex.base_classes import Arguments
+
+# from pylatex.base_classes import Arguments
 import pandas as pd
 import numpy as np
 

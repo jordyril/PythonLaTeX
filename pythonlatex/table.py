@@ -7,7 +7,8 @@ This module modifies the 'Table' class from 'pylatex'
 from pylatex import Table as TableOriginal
 from pylatex import Tabular as TabularOriginal
 from pylatex import Package, NoEscape, UnsafeCommand, Command
-from pylatex.base_classes import Arguments
+
+# from pylatex.base_classes import Arguments
 from pylatex.utils import fix_filename
 from .saving import LatexSaving
 from .float import FloatAdditions

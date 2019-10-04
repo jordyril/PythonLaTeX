@@ -5,7 +5,7 @@ This module modifies the 'Figure' class from 'pylatex'
 """
 
 from pylatex import Figure as FigureOriginal
-from pylatex import Package, NoEscape, Command
+from pylatex import Package, NoEscape
 from .saving import LatexSaving
 from .float import FloatAdditions
 import matplotlib.pyplot as plt
