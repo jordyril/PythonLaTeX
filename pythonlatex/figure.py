@@ -23,17 +23,14 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
         position=None,
         **kwargs,
     ):
-        # print("saving init in")
         LatexSaving.__init__(
             self,
             outer_folder=outer_folder_name,
             inner_folder=inner_folder_name,
             folders_path=folders_path,
         )
-        # print("saving init out")
-        # print("figure init in")
         FigureOriginal.__init__(self, *args, position=position, **kwargs)
-        # print("figure init out")
+
         self._label = "fig"
 
     def _save_plot(self, filename, *args, extension="jpg", **kwargs):

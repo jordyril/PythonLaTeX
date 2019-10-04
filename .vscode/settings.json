@@ -6,12 +6,22 @@
         "cookesg",
         "dtprcsr",
         "final",
+        "graphicx",
+        "isfile",
         "isreleased",
         "jordy",
+        "jrilla",
+        "posixpath",
+        "pylatex",
+        "pyplot",
         "rillaerts",
+        "rmtree",
         "scores",
         "scrape",
+        "shutil",
         "tqdm",
-        "xlsx"
+        "xlsx",
+        "zlabel",
+        "zref"
     ]
 }
