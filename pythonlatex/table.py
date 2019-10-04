@@ -6,15 +6,18 @@ This module modifies the 'Table' class from 'pylatex'
 
 from pylatex import Table as TableOriginal
 from pylatex import Tabular as TabularOriginal
-from pylatex import Package, NoEscape, UnsafeCommand
-from pylatex.utils import fix_filename, escape_latex
+from pylatex import Package, NoEscape, UnsafeCommand, Command
+from pylatex.base_classes import Arguments
+from pylatex.utils import fix_filename
 from .saving import LatexSaving
 from .float import FloatAdditions
 import pandas as pd
 
 
 class Table(FloatAdditions, LatexSaving, TableOriginal):
-    """A class that represents a Table environment with modified methods compared to parent"""
+    """A class that represents a Table environment with modified methods
+    compared to parent TableOriginal
+    """
 
     def __init__(
         self,
@@ -69,6 +72,8 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         above=True,
         label=None,
         placement=NoEscape(r"\centering"),
+        adjustbox=True,
+        adjustbox_arguments=NoEscape(r"max totalsize={\textwidth}{0.95\textheight}"),
         **kwargs,
     ):
         """Add an image to the figure.
@@ -82,13 +87,23 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         if label is None:
             label = filename
 
-        self._set_tabular(tabular)
+        self._set_tabular(tabular, *args, **kwargs)
         path = self._save_tabular(filename)
 
         if placement is not None:
             self.append(placement)
 
-        self.append(StandAloneTabular(filename=fix_filename(path)))
+        tabular_input = NoEscape(StandAloneTabular(filename=fix_filename(path)).dumps())
+
+        if adjustbox:
+            tabular_input = Command(
+                command="adjustbox",
+                arguments=adjustbox_arguments,
+                extra_arguments=tabular_input,
+                packages=[Package("adjustbox")],
+            )
+
+        self.append(tabular_input)
 
         if caption is not None:
             self.add_caption_label(caption, label, above)
@@ -106,6 +121,9 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         caption=None,
         above=True,
         label=None,
+        placement=NoEscape(r"\centering"),
+        adjustbox=True,
+        adjustbox_arguments=NoEscape(r"max totalsize={\textwidth}{0.95\textheight}"),
         **kwargs,
     ):
         """Creates separate input tex-file that can be used to input tabular within table environment
@@ -129,7 +147,6 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         kwargs:
             Keyword arguments passed to plt.savefig for displaying the plot.
         """
-        # TODO
         if add_table:
             self.add_table(
                 tabular,
@@ -138,6 +155,9 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
                 caption=caption,
                 above=above,
                 label=label,
+                placement=placement,
+                adjustbox=adjustbox,
+                adjustbox_arguments=adjustbox_arguments,
                 **kwargs,
             )
         else:

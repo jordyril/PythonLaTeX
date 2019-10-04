@@ -1,5 +1,6 @@
 from pythonlatex import Table
 from pylatex import Document, NoEscape
+from pylatex.base_classes import Arguments
 import pandas as pd
 import numpy as np
 
@@ -17,9 +18,11 @@ except FileNotFoundError:
 
 # testing DataFrame
 df = pd.DataFrame()
-x = np.arange(1, 5)
-df["x"] = x
-df["y"] = x
+x = np.arange(1, 20)
+for i in x:
+    df[i] = x
+# df["x"] = x
+# df["y"] = x
 df.index.name = "index"
 
 
@@ -115,7 +118,46 @@ class TestTables(unittest.TestCase):
         doc.append(input_tex)
         doc.preamble.append(NoEscape(r"\usepackage{booktabs}"))
         doc.preamble.append(NoEscape(r"\usepackage{zref-user}"))
-        doc.generate_pdf("Latex/test", clean_tex=False)
+        doc.generate_pdf(f"Latex/{name}", clean_tex=False)
+
+    def test_adjustbox(self):
+        table = Table()
+        name = "test_adjustbox"
+        caption = "caption"
+        input_tex = table.create_input_latex(
+            df, name, caption=caption, above=False, adjustbox=True
+        )
+
+        # create document for testing input statement
+        doc = Document()
+        doc.append(input_tex)
+        doc.preamble.append(NoEscape(r"\usepackage{booktabs}"))
+        doc.preamble.append(NoEscape(r"\usepackage{zref-user}"))
+        doc.preamble.append(NoEscape(r"\usepackage{adjustbox}"))
+        # doc.generate_tex(f"Latex/{name}")
+        doc.generate_pdf(f"Latex/{name}", clean_tex=False)
+
+    def test_adjustbox2(self):
+        table = Table()
+        name = "test_adjustbox2"
+        caption = "caption"
+        input_tex = table.create_input_latex(
+            df,
+            name,
+            caption=caption,
+            above=False,
+            adjustbox=True,
+            adjustbox_arguments=NoEscape(r"max totalsize={\textwidth}{0.2\textheight}"),
+        )
+
+        # create document for testing input statement
+        doc = Document()
+        doc.append(input_tex)
+        doc.preamble.append(NoEscape(r"\usepackage{booktabs}"))
+        doc.preamble.append(NoEscape(r"\usepackage{zref-user}"))
+        doc.preamble.append(NoEscape(r"\usepackage{adjustbox}"))
+        # doc.generate_tex(f"Latex/{name}")
+        doc.generate_pdf(f"Latex/{name}", clean_tex=False)
 
 
 if __name__ == "__main__":
