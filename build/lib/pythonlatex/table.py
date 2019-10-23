@@ -7,7 +7,8 @@ This module modifies the 'Table' class from 'pylatex'
 from pylatex import Table as TableOriginal
 from pylatex import Tabular as TabularOriginal
 from pylatex import Package, NoEscape, UnsafeCommand, Command
-from pylatex.base_classes import Arguments
+
+# from pylatex.base_classes import Arguments
 from pylatex.utils import fix_filename
 from .saving import LatexSaving
 from .float import FloatAdditions
@@ -124,6 +125,7 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         placement=NoEscape(r"\centering"),
         adjustbox=True,
         adjustbox_arguments=NoEscape(r"max totalsize={\textwidth}{0.95\textheight}"),
+        reset=True,
         **kwargs,
     ):
         """Creates separate input tex-file that can be used to input tabular within table environment
@@ -169,6 +171,9 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
 
         latex_input = self._print_latex_input(filename)
         self._write_input_to_txt_file(latex_input)
+
+        if reset:
+            self.reset()
 
         return NoEscape(latex_input)
 

@@ -125,6 +125,7 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         placement=NoEscape(r"\centering"),
         adjustbox=True,
         adjustbox_arguments=NoEscape(r"max totalsize={\textwidth}{0.95\textheight}"),
+        reset=True,
         **kwargs,
     ):
         """Creates separate input tex-file that can be used to input tabular within table environment
@@ -170,6 +171,9 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
 
         latex_input = self._print_latex_input(filename)
         self._write_input_to_txt_file(latex_input)
+
+        if reset:
+            self.reset()
 
         return NoEscape(latex_input)
 
