@@ -33,7 +33,7 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
 
         self._label = "fig"
 
-    def _save_plot(self, filename, *args, extension="jpg", **kwargs):
+    def save_plot(self, filename, *args, extension="jpg", **kwargs):
         """Saves the plot in the 'inner' folder
         Args
         ----
@@ -100,7 +100,7 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
             if key in kwargs:
                 add_image_kwargs[key] = kwargs.pop(key)
 
-        path = self._save_plot(filename, *args, extension=extension, **kwargs)
+        path = self.save_plot(filename, *args, extension=extension, **kwargs)
 
         self.add_image(path, **add_image_kwargs)
 
