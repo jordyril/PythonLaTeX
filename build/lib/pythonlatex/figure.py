@@ -33,7 +33,7 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
 
         self._label = "fig"
 
-    def save_plot(self, filename, *args, extension="jpg", **kwargs):
+    def save_plot(self, filename, *args, extension="png", **kwargs):
         """Saves the plot in the 'inner' folder
         Args
         ----
@@ -66,7 +66,7 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
         caption=None,
         above=True,
         label=None,
-        extension="jpg",
+        extension="png",
         **kwargs,
     ):
         """Add the current Matplotlib plot to the figure.
