@@ -74,7 +74,8 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         label=None,
         placement=NoEscape(r"\centering"),
         adjustbox=True,
-        adjustbox_arguments=NoEscape(r"max totalsize={\textwidth}{0.95\textheight}"),
+        adjustbox_arguments=NoEscape(
+            r"max totalsize={\textwidth}{0.95\textheight}"),
         **kwargs,
     ):
         """Add an image to the figure.
@@ -94,7 +95,8 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         if placement is not None:
             self.append(placement)
 
-        tabular_input = NoEscape(StandAloneTabular(filename=fix_filename(path)).dumps())
+        tabular_input = NoEscape(StandAloneTabular(
+            filename=fix_filename(path)).dumps())
 
         if adjustbox:
             tabular_input = Command(
@@ -124,7 +126,8 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         label=None,
         placement=NoEscape(r"\centering"),
         adjustbox=True,
-        adjustbox_arguments=NoEscape(r"max totalsize={\textwidth}{0.95\textheight}"),
+        adjustbox_arguments=NoEscape(
+            r"max totalsize={\textwidth}{0.95\textheight}"),
         reset=True,
         **kwargs,
     ):
@@ -149,6 +152,14 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         kwargs:
             Keyword arguments passed to plt.savefig for displaying the plot.
         """
+        # create automatic caption
+        if caption is None:
+            caption = filename
+
+        # Allow for  no caption
+        if caption is False:
+            caption = None
+
         if add_table:
             self.add_table(
                 tabular,

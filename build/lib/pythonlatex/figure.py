@@ -94,6 +94,14 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
         if label is None:
             label = filename
 
+        # create automatic caption
+        if caption is None:
+            caption = filename
+
+        # Allow for  no caption
+        if caption is False:
+            caption = None
+
         add_image_kwargs = {}
 
         for key in ("width", "placement"):
