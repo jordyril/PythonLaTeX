@@ -70,6 +70,7 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         filename,
         *args,
         caption=None,
+        description=None,
         above=True,
         label=None,
         placement=NoEscape(r"\centering"),
@@ -109,7 +110,8 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         self.append(tabular_input)
 
         if caption is not None:
-            self.add_caption_label(caption, label, above)
+            self.add_caption_description_label(
+                caption, label, above, description)
 
     def reset(self):
         self.data = []
@@ -122,6 +124,7 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         *args,
         add_table=True,
         caption=None,
+        description=None,
         above=True,
         label=None,
         placement=NoEscape(r"\centering"),
@@ -156,7 +159,7 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         if caption is None:
             caption = filename
 
-        # Allow for  no caption
+        # Allow for no caption
         if caption is False:
             caption = None
 
@@ -166,6 +169,7 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
                 filename,
                 *args,
                 caption=caption,
+                description=description,
                 above=above,
                 label=label,
                 placement=placement,
@@ -174,7 +178,8 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
                 **kwargs,
             )
         else:
-            self.add_caption_label(caption, label, above)
+            self.add_caption_description_label(
+                caption, label, above, description)
 
         # creating + opening the file
         with open(self._absolute_outer_path(f"{filename}.tex"), "w") as tex_file:
