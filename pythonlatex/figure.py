@@ -67,6 +67,7 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
         description=None,
         above=True,
         label=None,
+        zref=False,
         extension="png",
         **kwargs,
     ):
@@ -115,7 +116,7 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
 
         if caption is not None:
             self.add_caption_description_label(
-                caption, label, above, description)
+                caption, label, above, description, zref)
 
     def reset(self, show=True, close=False, *args, **kwargs):
         """Resets the Figure instance, this way the same set-up
@@ -176,7 +177,8 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
                 filename, *args, caption=caption, above=above, label=label, **kwargs
             )
         else:
-            self.add_caption_description_label(caption, label, above)
+            self.add_caption_description_label(
+                caption, label, above, description, zref)
 
         # creating + opening the final input file in the 'outer' folder
         with open(f"{self._absolute_outer_path(filename)}.tex", "w+") as tex_file:
