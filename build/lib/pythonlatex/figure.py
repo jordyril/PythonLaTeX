@@ -19,7 +19,7 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
         *args,
         folders_path="Latex/",
         outer_folder_name="Figures",
-        inner_folder_name="Graphs",
+        inner_folder_name="Graphics",
         position=None,
         **kwargs,
     ):

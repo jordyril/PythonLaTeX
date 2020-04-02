@@ -21,7 +21,7 @@ class FloatAdditions(Float):
         """
         if above:
             if description:
-                self.insert(0, Command('caption*'), description)
+                self.insert(0, Command('caption*', description))
             self.insert(0, Command("caption", caption))
 
         else:
