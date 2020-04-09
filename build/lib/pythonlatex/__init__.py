@@ -8,3 +8,4 @@ A library complementing/building upon the package
 from .figure import Figure, SubFigure
 from .table import Table
 from .saving import LatexSaving
+from .value_old import LatexValue

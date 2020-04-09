@@ -5,6 +5,7 @@ pythonlatex/figure.py
 pythonlatex/float.py
 pythonlatex/saving.py
 pythonlatex/table.py
+pythonlatex/value_old.py
 pythonlatex.egg-info/PKG-INFO
 pythonlatex.egg-info/SOURCES.txt
 pythonlatex.egg-info/dependency_links.txt
