@@ -93,16 +93,7 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
             for the same purpose as in the add_image command. Namely the width
             and placement of the generated plot in the LaTeX document.
         """
-        if label is None:
-            label = filename
-
-        # create automatic caption
-        if caption is None:
-            caption = filename
-
-        # Allow for  no caption
-        if caption is False:
-            caption = None
+        label, caption = self._check_label_caption(label, caption, filename)
 
         add_image_kwargs = {}
 
@@ -148,6 +139,7 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
         description=None,
         above=True,
         label=None,
+        zref=False,
         **kwargs,
     ):
         """Creates separate input tex-file that can be used to input Figure
@@ -172,9 +164,11 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
             for the same purpose as in the add_image command. Namely the width
             and placement of the generated plot in the LaTeX document.
         """
+        label, caption = self._check_label_caption(label, caption, filename)
+
         if add_plot:
             self.add_plot(
-                filename, *args, caption=caption, above=above, label=label, **kwargs
+                filename, *args, caption=caption, above=above, label=label, description=description, zref=zref, ** kwargs
             )
         else:
             self.add_caption_description_label(
@@ -188,6 +182,20 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
         self._write_input_to_txt_file(latex_input)
 
         return NoEscape(latex_input)
+
+    def _check_label_caption(self, label, caption, filename):
+        if label is None:
+            label = filename
+
+        # create automatic caption
+        if caption is None:
+            caption = filename
+
+        # Allow for  no caption
+        if caption is False:
+            caption = None
+
+        return label, caption
 
 
 class SubFigure(Figure):
