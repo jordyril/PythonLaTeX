@@ -116,7 +116,7 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
 
     def reset(self):
         self.data = []
-        del self.tabular
+        self.tabular = None
 
     def create_input_latex(
         self,
@@ -202,6 +202,14 @@ class SubTable(Table):
 
     def __init__(self, width=NoEscape(r"0.49\linewidth"), **kwargs):
         super().__init__(arguments=width, **kwargs)
+
+
+class SidewaysTable(Table):
+    """
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
 
 class StandAloneTabular(UnsafeCommand):
