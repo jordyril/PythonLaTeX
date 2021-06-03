@@ -83,7 +83,7 @@ class LatexSaving(object):
 
     def _print_latex_input(self, filename):
         to_print = (
-            f"\n %Latex input: {filename} %\n"
+            f"\n% Latex input: {filename} %\n"
             f"\\input{{{self._relative_outer_path(filename)}}} \n"
         )
         print(to_print)
