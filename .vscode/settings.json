@@ -23,5 +23,6 @@
         "xlsx",
         "zlabel",
         "zref"
-    ]
+    ],
+    "activestate.promptRuntimeCreation": false
 }

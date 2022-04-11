@@ -1,4 +1,4 @@
-Metadata-Version: 1.2
+Metadata-Version: 2.1
 Name: pythonlatex
 Version: 0.0.1.dev0
 Summary: 'pythonlatex' package version
@@ -8,6 +8,9 @@ Author-email: jordy_rillaerts13@hotmail.com
 Maintainer: Jordy Rillaerts
 Maintainer-email: jordy_rillaerts13@hotmail.com
 License: UNKNOWN
-Description: 'pythonlatex' package and extensions
-        
 Platform: UNKNOWN
+License-File: LICENSE
+
+'pythonlatex' package and extensions
+
+
