@@ -83,8 +83,11 @@ setup(
     maintainer=AUTHOR,
     maintainer_email=EMAIL,
     long_description=LONG_DESCRIPTION,
+<<<<<<< HEAD
     url=URL,
     long_description_content_type="test/markdown",
+=======
+>>>>>>> 51c8ff7aaf8a7dec1d368d1eff01d3fc0ad20988
     install_requires=DEPENDENCIES,
     packages=[DISTNAME],
 )
