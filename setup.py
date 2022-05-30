@@ -11,11 +11,11 @@ Created on Thur Sep 26 2019
    python pythonlatex.py sdist
 
    which will create an archive file in the 'dist' subdirectory.
-   The archive file will be  called 'pythonlatex-1.0.zip' and will
-   unpack into a directory 'pythonlatex-1.0'.
+   The archive file will be  called 'pythonlatex-X.x.zip' and will
+   unpack into a directory 'pythonlatex-X.x'.
 
    An end-user wishing to install the pythonlatex package can simply
-   unpack 'pythonlatex-1.0.zip' and from the 'pythonlatex-1.0' directory and
+   unpack 'pythonlatex-X.x.zip' and from the 'pythonlatex-X.x' directory and
    run
 
    python setup.py install
@@ -28,7 +28,7 @@ Created on Thur Sep 26 2019
 
    python setup.py bdist_wininst
 
-   which will create an executable installer, 'pythonlatex-1.0.win32.exe',
+   which will create an executable installer, 'pythonlatex-X.x.win32.exe',
    in the current directory.
 
 """
@@ -43,16 +43,19 @@ DISTNAME = "pythonlatex"
 
 # descriptions
 DESCRIPTION = "'pythonlatex' package version"
-LONG_DESCRIPTION = "'pythonlatex' package and extensions\n"
+with open("README.md", "r", encoding="utf-8") as fh:
+    LONG_DESCRIPTION = fh.read()
 
 # developer(s)
 AUTHOR = "Jordy Rillaerts"
 EMAIL = "jordy_rillaerts13@hotmail.com"
 
+URL = "https://github.com/jordyril/PythonLaTeX"
+
 # versioning
-MAJOR = 0
+MAJOR = 1
 MINOR = 0
-MICRO = 1
+MICRO = 0
 ISRELEASED = False
 VERSION = "%d.%d.%d" % (MAJOR, MINOR, MICRO)
 QUALIFIER = ""
@@ -63,14 +66,10 @@ write_version = True
 if not ISRELEASED:
     FULLVERSION += ".dev"
 
-CLASSIFIERS = [
-    "Development Status :: 4 - Beta",
-    "Environment :: Console",
-    "Operating System :: OS Independent",
-    "Intended Audience :: Jordy Rillaerts",
-    "Programming Language :: Python :: 3.7",
-    "Topic :: Support",
-]
+DEPENDENCIES = []
+with open("requirements.txt", "r", encoding="utf-8") as requirements:
+    for line in requirements:
+        DEPENDENCIES.append(line.strip())
 
 # ====================================================================
 # Create setup
@@ -84,7 +83,6 @@ setup(
     maintainer=AUTHOR,
     maintainer_email=EMAIL,
     long_description=LONG_DESCRIPTION,
-    setup_requires=["pylatex"],
-    install_requires=["pylatex"],
-    packages=["pythonlatex"],
+    install_requires=DEPENDENCIES,
+    packages=[DISTNAME],
 )
