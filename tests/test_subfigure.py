@@ -40,17 +40,12 @@ class TestSubFigure(unittest.TestCase):
                 right.add_plot(name, caption=name)
                 plt.close()
 
-            fig.add_caption_label("full", "full", above=False)
+            fig.add_caption_description_label("full", "full", above=False)
 
             self.assertEqual(
                 fig.dumps(),
                 (
-                    "\\begin{figure}%\n\\begin{subfigure}{0.48\\textwidth}%"
-                    + "\n\\caption{left}%\n\\zlabel{fig:left}%\n\\includegraphics[width=\\linewidth]"
-                    + "{Graphs/left.jpg}%\n\\end{subfigure}%\n\\begin{subfigure}{0.48\\textwidth}%"
-                    + "\n\\caption{right}%\n\\zlabel{fig:right}%\n\\includegraphics[width="
-                    + "\\linewidth]{Graphs/right.jpg}%\n\\end{subfigure}%\n\\caption{full}%\n"
-                    + "\\zlabel{fig:full}%\n\\end{figure}"
+                    "\\begin{figure}%\n\\begin{subfigure}{0.48\\textwidth}%\n\\caption{left}%\n\\label{fig:left}%\n\\includegraphics[width=\\linewidth]{Graphics/left.png}%\n\\end{subfigure}%\n\\begin{subfigure}{0.48\\textwidth}%\n\\caption{right}%\n\\label{fig:right}%\n\\includegraphics[width=\\linewidth]{Graphics/right.png}%\n\\end{subfigure}%\n\\caption{full}%\n\\label{fig:full}%\n\\end{figure}"
                 ),
             )
         doc.generate_tex("Latex/twosubfigures")

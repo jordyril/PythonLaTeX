@@ -48,10 +48,10 @@ class TestFigures(unittest.TestCase):
         name = "test"
         plt.figure()
         plt.plot(x, y)
-        fig._save_plot(name)
+        fig.save_plot(name)
 
         # check if graph was saved
-        path = fig._absolute_inner_path(f"{name}.jpg")
+        path = fig._absolute_inner_path(f"{name}.png")
         self.assertTrue(os.path.isfile(path))
 
     def test_add_plot(self):
@@ -65,8 +65,7 @@ class TestFigures(unittest.TestCase):
         self.assertEqual(
             fig.dumps(),
             (
-                "\\begin{figure}%\n\\centering%\n\\includegraphics[width=0.8"
-                + "\\textwidth]{Graphs/test.jpg}%\n\\end{figure}"
+                "\\begin{figure}%\n\\caption{test}%\n\\label{fig:test}%\n\\centering%\n\\includegraphics[width=0.8\\textwidth]{Graphics/test.png}%\n\\end{figure}"
             ),
         )
         plt.close()
@@ -84,8 +83,7 @@ class TestFigures(unittest.TestCase):
             self.assertEqual(
                 fig.dumps(),
                 (
-                    f"\\begin{{figure}}%\n\\centering%\n\\includegraphics[width=0.8\\textwidth]"
-                    + f"{{Graphs/test{i}.jpg}}%\n\\end{{figure}}"
+                    f"\\begin{{figure}}%\n\\caption{{test{i}}}%\n\\label{{fig:test{i}}}%\n\\centering%\n\\includegraphics[width=0.8\\textwidth]{{Graphics/test{i}.png}}%\n\\end{{figure}}"
                 ),
             )
             fig.reset(show=False, close=True)

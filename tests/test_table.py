@@ -73,7 +73,7 @@ class TestTables(unittest.TestCase):
 
         self.assertEqual(
             table.dumps(),
-            "\\begin{table}%\n\\centering%\n\\input{Tabulars/test}%\n\\end{table}",
+            "\\begin{table}%\n\\centering%\n\\adjustbox{max totalsize={\\textwidth}{0.95\\textheight}}{\\input{Tabulars/test}}%\n\\end{table}",
         )
 
     def test_caption(self):
@@ -87,8 +87,7 @@ class TestTables(unittest.TestCase):
         self.assertEqual(
             table.dumps(),
             (
-                "\\begin{table}%\n\\caption{caption}%\n\\zlabel{tbl:test}%\n\\"
-                "centering%\n\\input{Tabulars/test}%\n\\end{table}"
+                "\\begin{table}%\n\\caption{caption}%\n\\label{tbl:test}%\n\\centering%\n\\adjustbox{max totalsize={\\textwidth}{0.95\\textheight}}{\\input{Tabulars/test}}%\n\\end{table}"
             ),
         )
 
@@ -102,8 +101,7 @@ class TestTables(unittest.TestCase):
             self.assertEqual(
                 table.dumps(),
                 (
-                    f"\\begin{{table}}%\n\\caption{{{name}}}%\n\\zlabel{{tbl:{name}}}%\n\\"
-                    f"centering%\n\\input{{Tabulars/{name}}}%\n\\end{{table}}"
+                    f"\\begin{{table}}%\n\\caption{{{name}}}%\n\\label{{tbl:{name}}}%\n\\centering%\n\\adjustbox{{max totalsize={{\\textwidth}}{{0.95\\textheight}}}}{{\\input{{Tabulars/{name}}}}}%\n\\end{{table}}"
                 ),
             )
             table.reset()
@@ -116,9 +114,12 @@ class TestTables(unittest.TestCase):
 
         # create document for testing input statement
         doc = Document()
+        doc.dumps()
         doc.append(input_tex)
         doc.preamble.append(NoEscape(r"\usepackage{booktabs}"))
         doc.preamble.append(NoEscape(r"\usepackage{zref-user}"))
+        doc.preamble.append(NoEscape(r"\usepackage{adjustbox}"))
+
         doc.generate_pdf(f"Latex/{name}", clean_tex=False)
 
     def test_adjustbox(self):
