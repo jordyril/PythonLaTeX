@@ -76,8 +76,7 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         zref=False,
         placement=NoEscape(r"\centering"),
         adjustbox=True,
-        adjustbox_arguments=NoEscape(
-            r"max totalsize={\textwidth}{0.95\textheight}"),
+        adjustbox_arguments=NoEscape(r"max totalsize={\textwidth}{0.95\textheight}"),
         **kwargs,
     ):
         """Add an image to the figure.
@@ -97,8 +96,7 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         if placement is not None:
             self.append(placement)
 
-        tabular_input = NoEscape(StandAloneTabular(
-            filename=fix_filename(path)).dumps())
+        tabular_input = NoEscape(StandAloneTabular(filename=fix_filename(path)).dumps())
 
         if adjustbox:
             tabular_input = Command(
@@ -111,8 +109,7 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         self.append(tabular_input)
 
         if caption is not None:
-            self.add_caption_description_label(
-                caption, label, above, description, zref)
+            self.add_caption_description_label(caption, label, above, description, zref)
 
     def reset(self):
         self.data = []
@@ -131,8 +128,7 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         zref=False,
         placement=NoEscape(r"\centering"),
         adjustbox=True,
-        adjustbox_arguments=NoEscape(
-            r"max totalsize={\textwidth}{0.95\textheight}"),
+        adjustbox_arguments=NoEscape(r"max totalsize={\textwidth}{0.95\textheight}"),
         reset=True,
         **kwargs,
     ):
@@ -180,8 +176,7 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
                 **kwargs,
             )
         else:
-            self.add_caption_description_label(
-                caption, label, above, description, zref)
+            self.add_caption_description_label(caption, label, above, description, zref)
 
         # creating + opening the file
         with open(self._absolute_outer_path(f"{filename}.tex"), "w") as tex_file:
@@ -197,8 +192,7 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
 
 
 class SubTable(Table):
-    """
-    """
+    """ """
 
     def __init__(self, width=NoEscape(r"0.49\linewidth"), **kwargs):
         super().__init__(arguments=width, **kwargs)

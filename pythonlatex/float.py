@@ -21,28 +21,29 @@ class FloatAdditions(Float):
         """
         if above:
             if description:
-                self.insert(0, Command('caption*', description))
+                self.insert(0, Command("caption*", description))
             self.insert(0, Command("caption", caption))
 
         else:
             self.append(Command("caption", caption))
             if description:
-                self.append(0, Command('caption*'), description)
+                self.append(0, Command("caption*"), description)
 
     def add_label(self, label, above=True, zref=False):
         if zref:
             self.packages.add(Package("zref-user"))
-            lbl = 'zlabel'
+            lbl = "zlabel"
         else:
-            lbl = 'label'
+            lbl = "label"
 
         if above:
-            self.insert(0, Command(
-                lbl, NoEscape(f"{self._label}:{label}")))
+            self.insert(0, Command(lbl, NoEscape(f"{self._label}:{label}")))
         else:
             self.append(Command(lbl, NoEscape(f"{self._label}:{label}")))
 
-    def add_caption_description_label(self, caption, label, above=True, description=None, zref=False):
+    def add_caption_description_label(
+        self, caption, label, above=True, description=None, zref=False
+    ):
         if above:
             # note that we do label first here, so in final label is after caption
             self.add_label(NoEscape(label), above, zref)
