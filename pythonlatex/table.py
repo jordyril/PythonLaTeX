@@ -189,9 +189,8 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         if reset:
             self.reset()
         if printing_input:
-            return latex_input
-        else:
-            return None
+            print(latex_input)
+        return None
         # return NoEscape(latex_input)
 
 
