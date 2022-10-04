@@ -139,6 +139,7 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
         above=True,
         label=None,
         zref=False,
+        input_printing=True,
         **kwargs,
     ):
         """Creates separate input tex-file that can be used to input Figure
@@ -183,10 +184,14 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
         with open(f"{self._absolute_outer_path(filename)}.tex", "w+") as tex_file:
             tex_file.write(self.dumps())
 
-        latex_input = self._print_latex_input(filename)
+        latex_input = self._input_lines(filename)
         self._write_input_to_txt_file(latex_input)
 
-        return NoEscape(latex_input)
+        if input_printing:
+            return latex_input
+        else:
+            return None
+        # return NoEscape(latex_input)
 
     def _check_label_caption(self, label, caption, filename):
         if label is None:

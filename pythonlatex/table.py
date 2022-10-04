@@ -79,7 +79,7 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         adjustbox_arguments=NoEscape(r"max totalsize={\textwidth}{0.95\textheight}"),
         **kwargs,
     ):
-        """Add an image to the figure.
+        """Add a table/panel.
         Args
         ----
         filename: str
@@ -130,6 +130,7 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         adjustbox=True,
         adjustbox_arguments=NoEscape(r"max totalsize={\textwidth}{0.95\textheight}"),
         reset=True,
+        printing_input=True,
         **kwargs,
     ):
         """Creates separate input tex-file that can be used to input tabular within table environment
@@ -182,13 +183,16 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         with open(self._absolute_outer_path(f"{filename}.tex"), "w") as tex_file:
             tex_file.write(self.dumps())
 
-        latex_input = self._print_latex_input(filename)
+        latex_input = self._input_lines(filename)
         self._write_input_to_txt_file(latex_input)
 
         if reset:
             self.reset()
-
-        return NoEscape(latex_input)
+        if printing_input:
+            return latex_input
+        else:
+            return None
+        # return NoEscape(latex_input)
 
 
 class SubTable(Table):

@@ -81,12 +81,11 @@ class LatexSaving(object):
         with open(self._latest_inputs_file, "a") as file:
             file.write(latex_input)
 
-    def _print_latex_input(self, filename):
+    def _input_lines(self, filename):
         to_print = (
             f"\n% Latex input: {filename} %\n"
             f"\\input{{{self._relative_outer_path(filename)}}} \n"
         )
-        print(to_print)
         return to_print
 
     ########
