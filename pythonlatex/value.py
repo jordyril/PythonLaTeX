@@ -55,3 +55,6 @@ class Value(LatexSaving):
             print(latex_input)
         return None
         # return NoEscape(latex_input)
+
+    def __call__(self, value, filename, printing_input=True):
+        self.create_input_latex(value, filename, printing_input)
