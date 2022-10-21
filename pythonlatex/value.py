@@ -6,6 +6,7 @@ This module modifies the 'Figure' class from 'pylatex'
 
 from pylatex import NoEscape
 from .saving import LatexSaving
+from numpy import round
 
 
 class Value(LatexSaving):
@@ -25,10 +26,7 @@ class Value(LatexSaving):
         )
 
     def create_input_latex(
-        self,
-        value,
-        filename,
-        printing_input=True,
+        self, value, filename, printing_input=True, rounding=None, vformat=None
     ):
         """Creates separate input tex-file that can be used to input tabular within table environment
         Args
@@ -43,6 +41,19 @@ class Value(LatexSaving):
             Keyword arguments passed to plt.savefig for displaying the plot.
         """
 
+        if not isinstance(value, str):
+            if isinstance(value, int):
+                value = str(value)
+            else:
+                if vformat:
+                    value = f"{{{vformat}}}".format(value)
+                elif rounding:
+                    value = str(round(value, rounding))
+                else:
+                    raise ValueError(
+                        "Value should be of type int or string, if float a rounding or format needs to be provided"
+                    )
+
         # creating + opening the file
         with open(self._absolute_outer_path(f"{filename}.tex"), "w") as tex_file:
             tex_file.write(value)
@@ -56,5 +67,7 @@ class Value(LatexSaving):
         return None
         # return NoEscape(latex_input)
 
-    def __call__(self, value, filename, printing_input=True):
-        self.create_input_latex(value, filename, printing_input)
+    def __call__(
+        self, value, filename, printing_input=True, rounding=None, vformat=None
+    ):
+        self.create_input_latex(value, filename, printing_input, rounding, vformat)
