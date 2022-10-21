@@ -59,9 +59,6 @@ class LatexSaving(object):
         return path
 
     def _relative_outer_path(self, name):
-        """
-        Not really used, just for completeness
-        """
         path = posixpath.join(self._outer_folder_name, name)
         return path
 
@@ -87,44 +84,3 @@ class LatexSaving(object):
             f"\\input{{{self._relative_outer_path(filename)}}} \n"
         )
         return to_print
-
-    ########
-
-    # def _absolute_path(self, name):
-    #     path = posixpath.join(self._folder, name)
-    #     return path
-
-    # def _relative_path(self, name):
-    #     path = posixpath.join(self._folder_name, name)
-    #     return path
-
-    # def _create_folder(self):
-    #     if not os.path.exists(self._folder):
-    #         os.makedirs(self._folder)
-
-    # def _create_inputs_folder(self):
-    #     if not os.path.exists(f"{self._folders_path}Inputs"):
-    #         os.makedirs(f"{self._folders_path}Inputs")
-
-    # @property
-    # def _inputs_folder(self):
-    #     return f"{self._folders_path}Inputs/"
-
-    # def _write_input_to_txt_file(self, latex_input):
-    #     with open(f"{self._inputs_folder}inputs.txt", "a") as file:
-    #         file.write(latex_input)
-
-    # def _create_input_txt_file(self):
-    #     with open(f"{self._inputs_folder}inputs.txt", "w") as file:
-    #         text = "Summary of all Inputs".upper()
-    #         n = len(text)
-    #         file.write(f"{n * '='} \n")
-    #         file.write(f"{text} \n")
-    #         file.write(f"{n * '='} \n")
-
-    # def _print_latex_input(self, filename):
-    #     to_print = (
-    #         f"\n %Latex input: {filename} %\n" f"\\input{{Inputs/input_{filename}}} \n"
-    #     )
-    #     print(to_print)
-    #     return to_print
