@@ -54,8 +54,8 @@ URL = "https://github.com/jordyril/PythonLaTeX"
 
 # versioning
 MAJOR = 1
-MINOR = 0
-MICRO = 1
+MINOR = 1
+MICRO = 0
 ISRELEASED = True
 VERSION = "%d.%d.%d" % (MAJOR, MINOR, MICRO)
 QUALIFIER = ""
