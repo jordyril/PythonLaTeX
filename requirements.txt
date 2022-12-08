@@ -16,7 +16,7 @@ ordered-set==4.1.0
 packaging==21.3
 pandas==1.4.2
 pathspec==0.9.0
-Pillow==9.1.1
+Pillow==9.3.0
 platformdirs==2.5.2
 pycodestyle==2.8.0
 pyflakes==2.4.0
