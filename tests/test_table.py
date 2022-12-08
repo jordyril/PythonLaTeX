@@ -122,7 +122,7 @@ class TestTables(unittest.TestCase):
 
         doc.generate_pdf(f"Latex/{name}", clean_tex=False)
 
-    def test_adjustbox(self):
+    def test_adjustbox_default_args(self):
         table = Table()
         name = "test_adjustbox"
         caption = "caption"
@@ -139,7 +139,7 @@ class TestTables(unittest.TestCase):
         # doc.generate_tex(f"Latex/{name}")
         doc.generate_pdf(f"Latex/{name}", clean_tex=False)
 
-    def test_adjustbox2(self):
+    def test_adjustbox_user_args(self):
         table = Table()
         name = "test_adjustbox2"
         caption = "caption"
@@ -160,6 +160,70 @@ class TestTables(unittest.TestCase):
         doc.preamble.append(NoEscape(r"\usepackage{adjustbox}"))
         # doc.generate_tex(f"Latex/{name}")
         doc.generate_pdf(f"Latex/{name}", clean_tex=False)
+
+    def test_resizebox_default_args(self):
+        table = Table()
+        name = "test_resizebox"
+        caption = "caption"
+        input_tex = table.create_input_latex(
+            df,
+            name,
+            caption=caption,
+            above=False,
+            resizebox=True,
+            adjustbox=False,
+        )
+
+        # create document for testing input statement
+        doc = Document()
+        doc.append(input_tex)
+        doc.preamble.append(NoEscape(r"\usepackage{booktabs}"))
+        doc.preamble.append(NoEscape(r"\usepackage{zref-user}"))
+        doc.preamble.append(NoEscape(r"\usepackage{graphics}"))
+        # doc.generate_tex(f"Latex/{name}")
+        doc.generate_pdf(f"Latex/{name}", clean_tex=False)
+
+    def test_resizebox_user_args(self):
+        table = Table()
+        name = "test_resizebox"
+        caption = "caption"
+        input_tex = table.create_input_latex(
+            df,
+            name,
+            caption=caption,
+            above=False,
+            resizebox=True,
+            resizebox_arguments=(NoEscape("\columnwidth"), NoEscape("!")),
+            adjustbox=False,
+        )
+
+        # create document for testing input statement
+        doc = Document()
+        doc.append(input_tex)
+        doc.preamble.append(NoEscape(r"\usepackage{booktabs}"))
+        doc.preamble.append(NoEscape(r"\usepackage{zref-user}"))
+        doc.preamble.append(NoEscape(r"\usepackage{graphics}"))
+        # doc.generate_tex(f"Latex/{name}")
+        doc.generate_pdf(f"Latex/{name}", clean_tex=False)
+
+    def resizebox_adjustbox_error(self):
+        table = Table()
+        name = "test_resizebox_adjsutbox_error"
+
+        _ = table.create_input_latex(
+            df,
+            name,
+            resizebox=True,
+            adjustbox=True,
+        )
+        return None
+
+    def test_resizebox_adjustbox_error(self):
+        with self.assertRaises(Exception) as context:
+            self.resizebox_adjustbox_error()
+        self.assertTrue(
+            "Cannot have both resizebox and adjustbox" in str(context.exception)
+        )
 
 
 if __name__ == "__main__":

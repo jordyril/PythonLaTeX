@@ -51,7 +51,7 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
             self.tabular = tabular
 
         elif isinstance(tabular, pd.DataFrame):
-            self.tabular = tabular.to_latex(*args, **kwargs)
+            self.tabular = tabular.style.to_latex(*args, **kwargs)
 
     def _save_tabular(self, filename):
         try:
@@ -75,6 +75,8 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         label=None,
         zref=False,
         placement=NoEscape(r"\centering"),
+        resizebox=False,
+        resizebox_arguments=(NoEscape(r"\columnwidth"), NoEscape("!")),
         adjustbox=True,
         adjustbox_arguments=NoEscape(r"max totalsize={\textwidth}{0.95\textheight}"),
         **kwargs,
@@ -87,6 +89,8 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         placement: str
             Placement of the table, `None` is also accepted.
         """
+        if resizebox & adjustbox:
+            raise Exception("Cannot have both resizebox and adjustbox")
         if label is None:
             label = filename
 
@@ -97,6 +101,14 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
             self.append(placement)
 
         tabular_input = NoEscape(StandAloneTabular(filename=fix_filename(path)).dumps())
+        # tabular_input = "test"
+        if resizebox:
+            tabular_input = Command(
+                command="resizebox",
+                arguments=resizebox_arguments,
+                extra_arguments=tabular_input,
+                packages=[Package("graphics")],
+            )
 
         if adjustbox:
             tabular_input = Command(
