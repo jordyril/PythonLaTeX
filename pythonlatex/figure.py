@@ -97,7 +97,7 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
 
         add_image_kwargs = {}
 
-        for key in ("width", "placement"):
+        for key in ("width", "placement", "height"):
             if key in kwargs:
                 add_image_kwargs[key] = kwargs.pop(key)
 
