@@ -141,6 +141,8 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
         placement=NoEscape(r"\centering"),
         adjustbox=True,
         adjustbox_arguments=NoEscape(r"max totalsize={\textwidth}{0.95\textheight}"),
+        resizebox=False,
+        resizebox_arguments=(NoEscape(r"\columnwidth"), NoEscape("!")),
         reset=True,
         printing_input=True,
         **kwargs,
@@ -186,6 +188,8 @@ class Table(FloatAdditions, LatexSaving, TableOriginal):
                 placement=placement,
                 adjustbox=adjustbox,
                 adjustbox_arguments=adjustbox_arguments,
+                resizebox=resizebox,
+                resizebox_arguments=resizebox_arguments,
                 **kwargs,
             )
         else:
