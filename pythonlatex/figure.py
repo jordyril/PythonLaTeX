@@ -5,7 +5,7 @@ This module modifies the 'Figure' class from 'pylatex'
 """
 
 from pylatex import Figure as FigureOriginal
-from pylatex import Package, NoEscape
+from pylatex import Package, NoEscape, Command, Package
 from .saving import LatexSaving
 from .float import FloatAdditions
 import matplotlib.pyplot as plt
@@ -68,6 +68,8 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
         above=True,
         label=None,
         zref=False,
+        resizebox=False,
+        resizebox_arguments=(NoEscape(r"\columnwidth"), NoEscape("!")),
         extension="png",
         **kwargs,
     ):
@@ -103,7 +105,19 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
 
         path = self.save_plot(filename, *args, extension=extension, **kwargs)
 
-        self.add_image(path, **add_image_kwargs)
+
+        graphics = self.add_image(path, **add_image_kwargs)
+
+        if resizebox:
+            figure_input = Command(
+                command="resizebox",
+                arguments=resizebox_arguments,
+                extra_arguments=graphics,
+                packages=[Package("graphics")],
+            )
+
+        self.append(figure_input)
+        
 
         if caption is not None:
             self.add_caption_description_label(caption, label, above, description, zref)
