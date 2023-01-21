@@ -19,6 +19,30 @@ try:
 except FileNotFoundError:
     pass
 
+fig = Figure()
+
+name = "test_tex"
+caption = "caption"
+plt.figure()
+plt.plot(x, y)
+# fig.create_input_latex(name, caption=caption, resizebox=True)
+# fig.dumps()
+# fig.reset()
+# fig.add_plot("test")
+
+# path = fig.save_plot("test2", extension="jpg")
+# fig.dumps()
+# fig.add_image(path)
+
+# fig.dumps()
+_ = fig.create_input_latex(name, caption=caption, above=False, resizebox=True, )
+
+# create document for testing input statement
+doc = Document()
+doc.append(NoEscape("\input{Figures/test_tex}"))
+doc.preamble.append(NoEscape(r"\usepackage{graphicx}"))
+doc.preamble.append(NoEscape(r"\usepackage{zref-user}"))
+doc.generate_pdf("Latex/test_tex", clean_tex=False)
 
 class TestFigures(unittest.TestCase):
     def test_path(self):
@@ -94,11 +118,11 @@ class TestFigures(unittest.TestCase):
         caption = "caption"
         plt.figure()
         plt.plot(x, y)
-        input_tex = fig.create_input_latex(name, caption=caption, above=False)
+        _ = fig.create_input_latex(name, caption=caption, above=False)
 
         # create document for testing input statement
         doc = Document()
-        doc.append(input_tex)
+        doc.append(NoEscape("\input{Figures/test_tex}"))
         doc.preamble.append(NoEscape(r"\usepackage{graphicx}"))
         doc.preamble.append(NoEscape(r"\usepackage{zref-user}"))
         doc.generate_pdf("Latex/test_tex", clean_tex=False)
@@ -111,16 +135,32 @@ class TestFigures(unittest.TestCase):
         plt.figure()
         plt.plot(x, y)
 
-        input_tex = fig.create_input_latex(
+        _ = fig.create_input_latex(
             name, caption=caption, above=True, label=label
         )
 
         # create document for testing input statement
         doc = Document()
-        doc.append(input_tex)
+        doc.append(NoEscape("\input{Figures/test_label}"))
         doc.preamble.append(NoEscape(r"\usepackage{graphicx}"))
         doc.preamble.append(NoEscape(r"\usepackage{zref-user}"))
         doc.generate_pdf("Latex/test_label", clean_tex=False)
+
+    def test_resizebox(self):
+        fig = Figure()
+
+        name = "test_tex"
+        caption = "caption"
+        plt.figure()
+        plt.plot(x, y)
+        _ = fig.create_input_latex(name, caption=caption, above=False, resizebox=True)
+
+        # create document for testing input statement
+        doc = Document()
+        doc.append(NoEscape("\input{Figures/test_tex}"))
+        doc.preamble.append(NoEscape(r"\usepackage{graphicx}"))
+        doc.preamble.append(NoEscape(r"\usepackage{zref-user}"))
+        doc.generate_pdf("Latex/test_tex", clean_tex=False)
 
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@ This module modifies the 'Figure' class from 'pylatex'
 """
 
 from pylatex import Figure as FigureOriginal
-from pylatex import Package, NoEscape, Command, Package
+from pylatex import Package, NoEscape, Command, Package, StandAloneGraphic
 from .saving import LatexSaving
 from .float import FloatAdditions
 import matplotlib.pyplot as plt
@@ -70,6 +70,8 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
         zref=False,
         resizebox=False,
         resizebox_arguments=(NoEscape(r"\columnwidth"), NoEscape("!")),
+        width=NoEscape(r'0.8\textwidth'),
+        placement=NoEscape(r'\centering'),
         extension="png",
         **kwargs,
     ):
@@ -97,27 +99,28 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
         """
         label, caption = self._check_label_caption(label, caption, filename)
 
-        add_image_kwargs = {}
-
-        for key in ("width", "placement"):
-            if key in kwargs:
-                add_image_kwargs[key] = kwargs.pop(key)
-
         path = self.save_plot(filename, *args, extension=extension, **kwargs)
 
+        if placement is not None:
+            self.append(placement)
+        
+        if width is not None:
+            width = 'width=' + str(width)
 
-        graphics = self.add_image(path, **add_image_kwargs)
+        # self.add_image(path, **add_image_kwargs)
+        graphic = StandAloneGraphic(image_options=width, filename=path)
 
         if resizebox:
             figure_input = Command(
                 command="resizebox",
                 arguments=resizebox_arguments,
-                extra_arguments=graphics,
+                extra_arguments=graphic,
                 packages=[Package("graphics")],
             )
+        else: 
+            figure_input = graphic
 
         self.append(figure_input)
-        
 
         if caption is not None:
             self.add_caption_description_label(caption, label, above, description, zref)
@@ -154,6 +157,10 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
         label=None,
         zref=False,
         printing_input=True,
+        resizebox=False,
+        resizebox_arguments=(NoEscape(r"\columnwidth"), NoEscape("!")),
+        width=NoEscape(r'0.8\textwidth'),
+        placement=NoEscape(r'\centering'),
         **kwargs,
     ):
         """Creates separate input tex-file that can be used to input Figure
@@ -189,6 +196,10 @@ class Figure(FloatAdditions, LatexSaving, FigureOriginal):
                 label=label,
                 description=description,
                 zref=zref,
+                resizebox=resizebox,
+                resizebox_arguments=resizebox_arguments,
+                width=width,
+                placement=placement,
                 **kwargs,
             )
         else:
