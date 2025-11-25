@@ -1,0 +1,6 @@
+[lint]
+extend-select = ["ALL"]
+# ignore = [
+#     # "E501", # line too long
+#     # "W503", # line break before binary operator
+# ]
